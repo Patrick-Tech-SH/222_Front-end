@@ -8,7 +8,8 @@
     <div class="flex-1 px-2 mx-8">
       <div class="items-stretch hidden md:flex">
         <router-link to="/" class="btn btn-ghost btn-sm rounded-btn"> Home </router-link>
-        <a class="btn btn-ghost btn-sm rounded-btn"> About </a>
+        <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
+        <router-link to="/market" class="btn btn-ghost btn-sm rounded-btn"> Market </router-link>
         <a class="btn btn-ghost btn-sm rounded-btn"> My Items </a>
         <a class="btn btn-ghost btn-sm rounded-btn"> Cart </a>
       </div>
@@ -22,7 +23,7 @@
           </div>
         </div>
         <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1"> Login </router-link>
-        <a class="btn btn-ghost btn-sm rounded-btn m-1"> Logout </a>
+        <!-- <a class="btn btn-ghost btn-sm rounded-btn m-1"> Logout </a> -->
       </div>
     </div>
 
@@ -40,6 +41,9 @@
         </li>
         <li>
           <a>About</a>
+        </li>
+        <li>
+          <a>Market</a>
         </li>
         <li>
           <a>My Items</a>

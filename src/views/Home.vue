@@ -4,7 +4,7 @@
     <game-dev-list />
     <product-list />
     <div class="text-center pt-8">
-        <button class="btn btn-outline">View All Products</button>
+        <router-link to="/market" class="btn btn-outline">View All Products</router-link>
     </div>
   </div>
 </template>
