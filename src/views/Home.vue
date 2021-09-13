@@ -3,6 +3,9 @@
     <introduction />
     <game-dev-list />
     <product-list />
+    <div class="text-center pt-8">
+        <button class="btn btn-outline">View All Products</button>
+    </div>
   </div>
 </template>
 
