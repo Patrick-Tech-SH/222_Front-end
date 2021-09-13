@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue"
 import Market from "../views/Market.vue"
+import MyItems from "../views/MyItems.vue"
 
 const routes = [
   {
@@ -33,6 +34,11 @@ const routes = [
     path: "/market",
     name: "Market",
     component: Market,
+  },
+  {
+    path: "/myitems",
+    name: "MyItems",
+    component: MyItems,
   },
 ];
 

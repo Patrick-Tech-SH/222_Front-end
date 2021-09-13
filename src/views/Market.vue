@@ -16,7 +16,7 @@
                 <a class="my-1 text-sm md:text-lg font-medium text-gray-700 dark:text-gray-200 hover:text-indigo-500 dark:hover:text-indigo-400 mx-1 sm:mx-4 lg:my-0"
                     href="#">Ubisoft</a>
                 <a class="my-1 text-sm md:text-lg font-medium text-gray-700 dark:text-gray-200 hover:text-indigo-500 dark:hover:text-indigo-400 mx-1 sm:mx-4 lg:my-0"
-                    href="#">Comcap</a>
+                    href="#">Capcom</a>
             </div>
         </div>
 

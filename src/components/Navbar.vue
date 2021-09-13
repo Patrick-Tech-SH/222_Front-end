@@ -10,7 +10,7 @@
         <router-link to="/" class="btn btn-ghost btn-sm rounded-btn"> Home </router-link>
         <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
         <router-link to="/market" class="btn btn-ghost btn-sm rounded-btn"> Market </router-link>
-        <a class="btn btn-ghost btn-sm rounded-btn"> My Items </a>
+        <router-link to="/myitems" class="btn btn-ghost btn-sm rounded-btn"> My Items </router-link>
         <a class="btn btn-ghost btn-sm rounded-btn"> Cart </a>
       </div>
     </div>
