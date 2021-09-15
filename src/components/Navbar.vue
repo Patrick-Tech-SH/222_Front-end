@@ -11,7 +11,7 @@
         <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
         <router-link to="/market" class="btn btn-ghost btn-sm rounded-btn"> Market </router-link>
         <router-link to="/myitems" class="btn btn-ghost btn-sm rounded-btn"> My Items </router-link>
-        <a class="btn btn-ghost btn-sm rounded-btn"> Cart </a>
+        <router-link to="/cart" class="btn btn-ghost btn-sm rounded-btn"> Cart </router-link>
       </div>
     </div>
 
