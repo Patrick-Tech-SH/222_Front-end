@@ -6,7 +6,7 @@
     <!-- Product -->
     <div class="mt-10 grid sm:grid-cols-3 gap-3">
       <div>
-        <div class="card bordered">
+        <div class="card bordered cursor-pointer">
           <figure>
             <img src="https://picsum.photos/id/1005/400/250">
           </figure>
@@ -23,7 +23,7 @@
       </div>
 
       <div>
-        <div class="card bordered">
+        <div class="card bordered cursor-pointer">
           <figure>
             <img src="https://picsum.photos/id/1005/400/250">
           </figure>
@@ -40,7 +40,7 @@
       </div>
 
       <div>
-        <div class="card bordered">
+        <div class="card bordered cursor-pointer">
           <figure>
             <img src="https://picsum.photos/id/1005/400/250">
           </figure>
