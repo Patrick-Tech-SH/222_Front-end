@@ -22,39 +22,6 @@
         </div>
       </div>
 
-      <div>
-        <div class="card bordered cursor-pointer">
-          <figure>
-            <img src="https://picsum.photos/id/1005/400/250">
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">Game Name</h2>
-            <p class="">Game Dev Company Name</p>
-            <p class="text-yellow-600">Price</p>
-            <p class="">Platform</p>
-            <div class="justify-end card-actions">
-              <button class="btn btn-accent">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="card bordered cursor-pointer">
-          <figure>
-            <img src="https://picsum.photos/id/1005/400/250">
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">Game Name</h2>
-            <p class="">Game Dev Company Name</p>
-            <p class="text-yellow-600">Price</p>
-            <p class="">Platform</p>
-            <div class="justify-end card-actions">
-              <button class="btn btn-accent">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- <div class="card text-center shadow-2xl">
         <figure class="px-10 pt-10">
@@ -71,13 +38,35 @@
         </div>
       </div> -->
 
+      <pre>{{ items }}</pre>
+
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions , mapGetters } from 'vuex'
+
+
   export default {
     name: "ProductList",
+
+    created() {
+      this.loadProducts()
+    },
+
+
+    methods: {
+      ...mapActions({
+        loadProducts: "loadProducts"
+      }),
+    },
+
+    computed: {
+      ...mapGetters({
+        items: "items"
+      }),
+    }
   };
 </script>
 
