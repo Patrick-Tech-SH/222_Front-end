@@ -4,17 +4,17 @@
     <!-- <h1 class="text-2xl font-bold">All Games</h1> -->
 
     <!-- Product -->
-    <div class="mt-10 grid sm:grid-cols-3 gap-3">
-      <div>
+    <div v-for="(item,i) in items" :key="i" class="mt-10 grid sm:grid-cols-3 gap-3">
+      <div v-for="product in item" :key="product.keyId">
         <div class="card bordered cursor-pointer">
           <figure>
             <img src="https://picsum.photos/id/1005/400/250">
           </figure>
           <div class="card-body">
-            <h2 class="card-title">Game Name</h2>
-            <p class="">Game Dev Company Name</p>
-            <p class="text-yellow-600">Price</p>
-            <p class="">Platform</p>
+            <h2 class="card-title">{{ product.gameName }}</h2>
+            <p class="">{{ product.gamedeveloper.devName}}</p>
+            <p class="text-yellow-600">$ {{ product.price }}</p>
+            <p class="">{{ product.platform.pName }}</p>
             <div class="justify-end card-actions">
               <button class="btn btn-accent">Add to cart</button>
             </div>

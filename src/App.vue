@@ -21,7 +21,11 @@
     components: {
       Navbar,
       Footer
-    }
+    },
+
+    // beforeCreate () {
+    //     this.$store.dispatch('http://localhost:3000/keygames/')
+    // }
   }
 </script>
 
