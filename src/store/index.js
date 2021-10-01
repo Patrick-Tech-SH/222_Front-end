@@ -15,7 +15,7 @@ export default createStore({
   actions: {
     async loadProducts ({ commit }) {
       try {
-        const { data } = await axios.get('http://localhost:3000/keygames/')
+        const { data } = await axios.get('http://35.240.144.51/:3000/keygames/')
         if (data) {
           console.log(data);
           commit("GET_PRODUCTS", data)
