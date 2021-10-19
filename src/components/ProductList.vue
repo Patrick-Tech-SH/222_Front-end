@@ -38,7 +38,7 @@
         </div>
       </div> -->
 
-      <pre>{{ items }}</pre>
+      <pre>{{ items.data[0] }}</pre>
 
     </div>
   </div>

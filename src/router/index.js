@@ -6,6 +6,7 @@ import Market from "../views/Market.vue"
 import MyItems from "../views/MyItems.vue"
 import Cart from "../views/Cart.vue"
 import ProductDetail from "../views/ProductDetail.vue"
+import AddItem from "../views/AddItem.vue"
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     path: "/productdetail",
     name: "ProductDetail",
     component: ProductDetail,
+  },
+  {
+    path: "/additem",
+    name: "AddItem",
+    component: AddItem,
   },
 ];
 
