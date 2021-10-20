@@ -3,16 +3,19 @@
         <div class="md:px-5 border px-5 py-3 xl:py-8 m-3 rounded-md md:mx-32 xl:mx-96 shadow-md xl:my-48 my-28">
             <h1 class="mb-10 text-4xl text-center">Add Item</h1>
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
-                <label class="">Game Name</label>
-                <input type="text" class="border p-2">
+                <label>Game Name</label>
+                <input type="text" class="border p-2" v-model="newItem.gameName">
                 <label>Game Development Company</label>
-                <select class="border p-2">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                <!-- <div v-for="(item,i) in getGameDev" :key="i">
+                    <select class="border p-2" v-model="newItem.gameDev">
+                        <option v-for="gamedev in item" :key="gamedev.devId" :value="gamedev.devId">{{ gamedev.devName }}</option>
+                    </select>
+                </div> -->
+                <select class="border p-2" v-model="newItem.gamedeveloper_devId">
+                    <option v-for="gamedev in getGameDev.data" :key="gamedev.devId" :value="gamedev.devId">{{ gamedev.devName }}</option>
                 </select>
                 <label>Released on</label>
-                <input type="date" class="border p-2">
+                <input type="date" class="border p-2" v-model="newItem.releaseDate">
                 <label>Detail</label>
                 <textarea placeholder="write here" cols="50" rows="5" class="border p-2" />
                 <label>Price</label>
@@ -43,12 +46,44 @@
                 <button class="btn btn-accent mx-auto">Add Item</button>
             </div>
         </div>
+
+        <pre>{{ newItem }}</pre>
+
+        <pre>{{ getGameDev }}</pre>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+
     export default {
-        name:"AddProduct"
+        name:"AddProduct",
+        created(){
+            this.fetchGameDev();
+        },
+        data () {
+            return {
+                getGameDev: [],
+                newItem: {
+                    gameName: "",
+                    gamedeveloper_devId: "",
+                    releaseDate: "",
+                }
+            }
+        },
+        methods:{
+            async fetchGameDev(){
+                try {
+                    const { data } = await axios.get('http://localhost:3000/gamedeveloper/')
+                    if (data) {
+                        console.log(data);
+                        this.getGameDev = data
+                    }
+                }   catch (error) {
+                        console.error(error)
+                }
+            }
+        },
     }
 </script>
 
