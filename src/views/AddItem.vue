@@ -17,17 +17,17 @@
                 <label>Released on</label>
                 <input type="date" class="border p-2" v-model="newItem.releaseDate">
                 <label>Detail</label>
-                <textarea placeholder="write here" cols="50" rows="5" class="border p-2" />
+                <textarea v-model="newItem.gameDetail" placeholder="write here" cols="50" rows="5" class="border p-2" />
                 <label>Price</label>
-                <input type="text" class="border p-2">
+                <input v-model="newItem.price" type="number" min="1" maxlength="6" class="border p-2">
                 <label>Platform</label>
-                <div class="space-x-4">
-                    <input type="radio" name="#">
-                    <label>1</label>
-                    <input type="radio" name="#">
+                <div class="space-x-4" v-for="platform in getPlatform.data" :key="platform.pId">
+                    <input type="radio" name="#" :value="platform.pId" v-model="newItem.Platform_pId">
+                    <label>{{ platform.pName }}</label>
+                    <!-- <input type="radio" name="#">
                     <label>2</label>
                     <input type="radio" name="#">
-                    <label>3</label>
+                    <label>3</label> -->
                 </div>
                 <label>Tag</label>
                 <div class="space-x-4">
@@ -60,14 +60,21 @@ import axios from "axios";
         name:"AddProduct",
         created(){
             this.fetchGameDev();
+            this.fetchPlatform();
         },
         data () {
             return {
                 getGameDev: [],
+                getPlatform: [],
                 newItem: {
                     gameName: "",
                     gamedeveloper_devId: "",
                     releaseDate: "",
+                    gameDetail: "",
+                    price: "",
+                    Platform_pId: "",
+                    gametags: [],
+                    images: ""
                 }
             }
         },
@@ -76,13 +83,24 @@ import axios from "axios";
                 try {
                     const { data } = await axios.get('http://localhost:3000/gamedeveloper/')
                     if (data) {
-                        console.log(data);
+                        // console.log(data);
                         this.getGameDev = data
                     }
                 }   catch (error) {
                         console.error(error)
                 }
-            }
+            },
+            async fetchPlatform(){
+                try {
+                    const { data } = await axios.get('http://localhost:3000/platform/')
+                    if (data) {
+                        console.log(data);
+                        this.getPlatform = data
+                    }
+                }   catch (error) {
+                        console.error(error)
+                }
+            },
         },
     }
 </script>
