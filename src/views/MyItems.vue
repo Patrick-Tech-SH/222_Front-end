@@ -6,7 +6,7 @@
             </div>
 
             <div>
-                <button class="btn btn-outline btn-accent">Add Item</button>
+                <router-link to="/additem" class="btn btn-outline btn-accent">Add Item</router-link>
             </div>
         </div>
 

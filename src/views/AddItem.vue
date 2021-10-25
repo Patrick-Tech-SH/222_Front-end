@@ -30,16 +30,16 @@
                     <label>3</label> -->
                 </div>
                 <label>Tag</label>
-                <div class="space-x-4">
-                    <input type="checkbox">
-                    <label>1</label>
-                    <input type="checkbox">
+                <div class="space-x-4" v-for="tag in getTag.data" :key="tag.tagId">
+                    <input type="checkbox" :value="{id: tag.tagId}" v-model="newItem.gametags">
+                    <label>{{ tag.tagName }}</label>
+                    <!-- <input type="checkbox">
                     <label>2</label>
                     <input type="checkbox">
-                    <label>3</label>
+                    <label>3</label> -->
                 </div>
                 <label>Image</label>
-                <input type="file" id="img" name="img" accept="image/*">
+                <input type="file" id="img" name="img" accept="image/jpeg" v-on:change="handlePic">
             </div>
 
             <div class="text-center">
@@ -49,7 +49,7 @@
 
         <pre>{{ newItem }}</pre>
 
-        <pre>{{ getGameDev }}</pre>
+        <pre>{{ getTag }}</pre>
     </div>
 </template>
 
@@ -61,11 +61,13 @@ import axios from "axios";
         created(){
             this.fetchGameDev();
             this.fetchPlatform();
+            this.fetchTag();
         },
         data () {
             return {
                 getGameDev: [],
                 getPlatform: [],
+                getTag: [],
                 newItem: {
                     gameName: "",
                     gamedeveloper_devId: "",
@@ -94,13 +96,28 @@ import axios from "axios";
                 try {
                     const { data } = await axios.get('http://localhost:3000/platform/')
                     if (data) {
-                        console.log(data);
+                        // console.log(data);
                         this.getPlatform = data
                     }
                 }   catch (error) {
                         console.error(error)
                 }
             },
+            async fetchTag(){
+                try {
+                    const { data } = await axios.get('http://localhost:3000/gametags/')
+                    if (data) {
+                        // console.log(data);
+                        this.getTag = data
+                    }
+                }   catch (error) {
+                        console.error(error)
+                }
+            },
+            handlePic(event) {
+                this.newItem.images = event.target.files[0].name;
+                console.log(event.target.files[0]);
+            }
         },
     }
 </script>
