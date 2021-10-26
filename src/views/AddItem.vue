@@ -42,7 +42,7 @@
                 <input type="file" id="img" name="img" accept="image/jpeg" v-on:change="handlePic">
             </div>
 
-            <div class="text-center">
+            <div class="text-center" @click="addItem">
                 <button class="btn btn-accent mx-auto">Add Item</button>
             </div>
         </div>
@@ -117,6 +117,17 @@ import axios from "axios";
             handlePic(event) {
                 this.newItem.images = event.target.files[0].name;
                 console.log(event.target.files[0]);
+            },
+            async addItem() {
+                // console.log(this.newItem);
+                await axios.post("http://localhost:3000/keygames/add" , this.newItem)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
             }
         },
     }
