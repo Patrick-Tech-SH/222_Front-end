@@ -27,26 +27,52 @@
             <h1 class="mb-10 text-4xl text-center">Login</h1>
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
                 <label class="">Email</label>
-                <input type="text" class="border p-2">
+                <input type="email" class="border p-2" v-model="user.email">
                 <label>Password</label>
-                <input type="text" class="border p-2">
+                <input type="password" class="border p-2" v-model="user.password">
             </div>
 
             <div class="text-right mb-5 md:px-10 lg:px-48 text-blue-700 font-bold underline">
                 <router-link to="/register">Sign Up</router-link>
             </div>
 
-            <div class="text-center">
+            <div class="text-center" @click="login">
                 <button class="btn btn-active mx-auto">Login</button>
             </div>
+
+            <pre>{{ user }}</pre>
         </div>
 
     </div>
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
-        name: "Login"
+        name: "Login",
+        data() {
+            return {
+                user: {
+                    email: "",
+                    password: ""
+                }
+            }
+        },
+        methods: {
+            login() {
+                axios.post("http://localhost:3000/user/login", this.user)
+                    .then((response) => {
+                        // return response.data;
+                        // console.log(response.data.token);
+                        localStorage.setItem("token" ,response.data.token)
+                        console.log("Login success!!");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
+        }
     }
 </script>
 
