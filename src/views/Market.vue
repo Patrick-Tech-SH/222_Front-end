@@ -20,19 +20,39 @@
             </div>
         </div>
 
-        <div>
-            <product-list />
+        <div class="mt-10 grid sm:grid-cols-3 gap-3">
+            <product-list v-for="product in items.data" :key="product.keyId" :product="product" />
         </div>
     </div>
 </template>
 
 <script>
-import ProductList from "../components/ProductList.vue"
+    import ProductList from "../components/ProductList.vue"
+    import {
+        mapActions,
+        mapGetters
+    } from 'vuex'
 
     export default {
         name: "Market",
-        components:{
+        components: {
             ProductList
+        },
+        created() {
+            this.loadProducts()
+        },
+
+
+        methods: {
+            ...mapActions({
+                loadProducts: "loadProducts"
+            }),
+        },
+
+        computed: {
+            ...mapGetters({
+                items: "items"
+            }),
         }
     }
 </script>

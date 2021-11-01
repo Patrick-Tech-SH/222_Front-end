@@ -3,7 +3,9 @@ import axios from "axios";
 
 export default createStore({
   state: {
-    items:[]
+    items:[],
+    token: "",
+    userId: "",
   },
 
   mutations: {
@@ -29,6 +31,7 @@ export default createStore({
   modules: {},
 
   getters:{
-    items: (state) => state.items
+    items: (state) => state.items,
+    token: (state) => !!state.token
   }
 });

@@ -22,8 +22,8 @@
             <img src="https://i.pravatar.cc/500?img=32" />
           </div>
         </div>
-        <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1"> Login </router-link>
-        <!-- <a class="btn btn-ghost btn-sm rounded-btn m-1"> Logout </a> -->
+        <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="!this.haveToken"> Login </router-link>
+        <a class="btn btn-ghost btn-sm rounded-btn m-1" v-if="this.haveToken" @click="logout"> Logout </a>
       </div>
     </div>
 
@@ -63,8 +63,32 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex"
+  import axios from "axios";
   export default {
     name: "Navbar",
+    methods:{
+      async logout () {
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + localStorage.getItem("token");
+
+        await axios.post("http://localhost:3000/user/logout")
+        .then(() => {
+          localStorage.clear()
+          console.log("Logout success!!");
+          this.$store.state.token = ""
+          this.$store.state.userId = ""
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      }
+    },
+    computed: {
+      ...mapGetters({
+        haveToken: "token"
+      })
+    }
   };
 </script>
 

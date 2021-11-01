@@ -73,6 +73,7 @@ import axios from "axios";
                     gamedeveloper_devId: "",
                     releaseDate: "",
                     gameDetail: "",
+                    userId: localStorage.getItem("userId"),
                     price: "",
                     Platform_pId: "",
                     gametags: [],
@@ -119,7 +120,7 @@ import axios from "axios";
                 console.log(event.target.files[0]);
             },
             async addItem() {
-                // console.log(this.newItem);
+                console.log(this.newItem);
                 await axios.post("http://localhost:3000/keygames/add" , this.newItem)
                 .then((response) => {
                     return response.data;

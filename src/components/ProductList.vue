@@ -4,10 +4,10 @@
     <!-- <h1 class="text-2xl font-bold">All Games</h1> -->
 
     <!-- Product -->
-    <div v-for="(item,i) in items" :key="i" class="mt-10 grid sm:grid-cols-3 gap-3">
-      <div v-for="product in item" :key="product.keyId">
+    <div>
+      <div>
         <div class="card bordered cursor-pointer">
-          <figure>
+          <figure @click="this.$router.push(`/productdetail/${ product.keyId }`)">
             <img src="https://picsum.photos/id/1005/400/250">
           </figure>
           <div class="card-body">
@@ -38,35 +38,38 @@
         </div>
       </div> -->
 
-      <pre>{{ items.data[0] }}</pre>
+
 
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions , mapGetters } from 'vuex'
+// import { mapActions , mapGetters } from 'vuex'
 
 
   export default {
     name: "ProductList",
-
-    created() {
-      this.loadProducts()
-    },
-
-
-    methods: {
-      ...mapActions({
-        loadProducts: "loadProducts"
-      }),
-    },
-
-    computed: {
-      ...mapGetters({
-        items: "items"
-      }),
+    props:{
+      product:Object
     }
+
+    // created() {
+    //   this.loadProducts()
+    // },
+
+
+    // methods: {
+    //   ...mapActions({
+    //     loadProducts: "loadProducts"
+    //   }),
+    // },
+
+    // computed: {
+    //   ...mapGetters({
+    //     items: "items"
+    //   }),
+    // }
   };
 </script>
 

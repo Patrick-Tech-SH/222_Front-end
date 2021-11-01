@@ -66,7 +66,15 @@
                         // return response.data;
                         // console.log(response.data.token);
                         localStorage.setItem("token" ,response.data.token)
+                        localStorage.setItem("userId" ,response.data.userId)
+                        this.$store.state.token = response.data.token
+                        this.$store.state.userId = response.data.userId
+                        console.log(localStorage.getItem("token"));
+                        console.log(localStorage.getItem("userId"));
+                        console.log(this.$store.state.token);
+                        console.log(this.$store.state.userId);
                         console.log("Login success!!");
+                        this.$router.push("/")
                     })
                     .catch((error) => {
                         console.log(error);

@@ -27,12 +27,17 @@
                 </div>
             </div>
         </div>
+
+        <pre>{{ $route.params.id }}</pre>
     </div>
 </template>
 
 <script>
     export default {
-        name: "ProductDetail"
+        name: "ProductDetail",
+        props: {
+            id:String
+        }
     }
 </script>
 
