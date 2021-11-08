@@ -23,6 +23,8 @@
         <div class="mt-10 grid sm:grid-cols-3 gap-3">
             <product-list v-for="product in items.data" :key="product.keyId" :product="product" />
         </div>
+
+        <pre>{{ items }}</pre>
     </div>
 </template>
 

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <pre>{{ itemById }}</pre>
         <div class="flex flex-col md:flex-row md:justify-around	md:mb-32 md:mt-16 ">
             <!-- image -->
             <div class="mt-6 p-6 md:w-6/12 md:h-2/4">
@@ -9,16 +10,14 @@
             <!-- detail -->
             <div class="mt-10 p-8 md:w-6/12">
                 <div>
-                    <p class="md:text-3xl md:mb-4">Game Name</p>
-                    <p class="md:text-xl md:mb-2">Game Dev Company Name</p>
-                    <p class="md:text-xl md:mb-2">Released on</p>
+                    <p class="md:text-3xl md:mb-4">{{ this.itemById.gameName }}</p>
+                    <p class="md:text-xl md:mb-2" >{{ this.itemById.gamedeveloper.devName }}</p>
+                    <p class="md:text-xl md:mb-2">Released on: {{ this.itemById.releaseDate }}</p>
                     <p class="md:text-xl md:mb-2">Detail</p>
-                    <textarea name="" id="" cols="30" rows="7" class=" w-full md:w-11/12">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, cumque incidunt sint labore explicabo iure sapiente quo voluptates provident doloribus assumenda reprehenderit nesciunt ratione est tenetur magni minus ea quam.
-                    </textarea>
-                    <p class="md:text-xl md:mb-2">Price</p>
-                    <p class="md:text-xl md:mb-2">Platform</p>
-                    <p class="md:text-xl md:mb-2">Tag</p>
+                    <p class=" w-full md:w-11/12 md:mb-4">{{ this.itemById.gameDetail }}</p>
+                    <p class="md:text-xl md:mb-2">Price: {{ this.itemById.price }}</p>
+                    <p class="md:text-xl md:mb-2">Platform: {{ this.itemById.platform.pName }}</p>
+                    <p class="md:text-xl md:mb-2" v-for="tag in this.itemById.keycategory" :key="tag.kcId">Tag: {{ tag.gametags.tagName }} ,</p>
                 </div>
 
                 <!-- button -->
@@ -28,16 +27,41 @@
             </div>
         </div>
 
+
         <pre>{{ $route.params.id }}</pre>
+
     </div>
 </template>
 
 <script>
+    import {
+        mapActions,
+        mapGetters
+    } from 'vuex'
     export default {
         name: "ProductDetail",
         props: {
             id:String
+        },
+        async mounted () {
+            await this.getItemById(this.$route.params.id)
+        },
+        data () {
+            return {
+                // itemById:[]
+            }
+        },
+        methods: {
+            ...mapActions({
+                getItemById: "getItemById"
+            })
+        },
+        computed: {
+            ...mapGetters({
+                itemById: "itemById",
+            })
         }
+
     }
 </script>
 
