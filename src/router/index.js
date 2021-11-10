@@ -7,6 +7,7 @@ import MyItems from "../views/MyItems.vue"
 import Cart from "../views/Cart.vue"
 import ProductDetail from "../views/ProductDetail.vue"
 import AddItem from "../views/AddItem.vue"
+import AddImage from "../views/AddImage.vue"
 
 const routes = [
   {
@@ -57,6 +58,11 @@ const routes = [
     path: "/additem",
     name: "AddItem",
     component: AddItem,
+  },
+  {
+    path: "/addimage",
+    name: "AddImage",
+    component: AddImage,
   },
 ];
 

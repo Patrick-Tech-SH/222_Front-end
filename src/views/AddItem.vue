@@ -73,12 +73,14 @@ import axios from "axios";
                     gamedeveloper_devId: "",
                     releaseDate: "",
                     gameDetail: "",
-                    userId: localStorage.getItem("userId"),
+                    user_userId: Number(localStorage.getItem("userId")),
                     price: "",
                     Platform_pId: "",
                     gametags: [],
-                    images: ""
-                }
+                },
+                imageName: "",
+                imageFile: null,
+                newKeyId: ""
             }
         },
         methods:{
@@ -116,19 +118,42 @@ import axios from "axios";
                 }
             },
             handlePic(event) {
-                this.newItem.images = event.target.files[0].name;
-                console.log(event.target.files[0]);
+                this.imageName = event.target.files[0].name;
+                //console.log(this.imageName);
+                this.imageFile = event.target.files[0]
+                //console.log(event.target.files[0]);
+                console.log(this.imageFile);
             },
             async addItem() {
                 console.log(this.newItem);
+                // this.$router.push("/addimage")
                 await axios.post("http://localhost:3000/keygames/add" , this.newItem)
                 .then((response) => {
-                    return response.data;
+                    this.newKeyId = response.data.keyId
+                    console.log(this.newKeyId);
+                    // return response.data;
                 })
+                .then(this.addImage)
+                // .then(() => {
+                //     var formdata = new FormData();
+                //     formdata.append("file", this.imageFile);
+                //     axios.post("http://localhost:3000/keygames/addimage/" + this.newKeyId, this.formdata),
+                //         {
+                //             "Content-Type": "multipart/form-data",
+                //         }
+                // })
                 .catch((error) => {
                     console.log(error);
                 })
+            },
 
+            async addImage () {
+                var formdata = new FormData();
+                formdata.append("file", this.imageFile);
+                axios.post("http://localhost:3000/keygames/addimage/" + this.newKeyId, formdata),
+                    {
+                        "Content-Type": "multipart/form-data",
+                    }
             }
         },
     }
