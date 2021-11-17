@@ -8,7 +8,7 @@
       <div>
         <div class="card bordered cursor-pointer">
           <figure @click="this.$router.push(`/productdetail/${ product.keyId }`)">
-            <img src="https://picsum.photos/id/1005/400/250">
+            <img :src="`http://localhost:3000/keygames/getimage/${ product.keyId }`" />
           </figure>
           <div class="card-body">
             <h2 class="card-title">{{ product.gameName }}</h2>

@@ -23,6 +23,10 @@
       Footer
     },
 
+    beforeCreate(){
+      this.$store.dispatch("getLocalStorage")
+    }
+
     // beforeCreate () {
     //     this.$store.dispatch('http://localhost:3000/keygames/')
     // }

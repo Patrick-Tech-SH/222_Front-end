@@ -13,85 +13,73 @@
         <!-- ItemList -->
 
         <div class="mx-9 pt-10 grid sm:grid-cols-3 gap-3">
-            <div>
+            <div v-for="item in keyGameByUserId" :key="item.keyId">
                 <div class="card bordered">
-                    <figure>
+                    <figure @click="this.$router.push(`/edititem/${ item.keyId }`)">
                         <img src="https://picsum.photos/id/1005/400/250">
                     </figure>
                     <div class="card-body">
-                        <h2 class="card-title">Game Name</h2>
-                        <p class="">Game Dev Company Name</p>
-                        <p class="text-yellow-600">Price</p>
-                        <p class="">Platform</p>
+                        <h2 class="card-title">{{ item.gameName }}</h2>
+                        <p class="">{{ item.gamedeveloper.devName }}</p>
+                        <p class="text-yellow-600">{{ item.price }}</p>
+                        <p class="">{{ item.platform.pName }}</p>
                         <div class="justify-end card-actions">
-                            <button class="btn btn-info">Edit</button>
-                            <button class="btn btn-error">Delete</button>
+                            <button class="btn btn-info" @click="this.$router.push(`/edititem/${ item.keyId }`)">Edit</button>
+                            <button class="btn btn-error" @click="deleteKeyGame(item.keyId)">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div>
-                <div class="card bordered">
-                    <figure>
-                        <img src="https://picsum.photos/id/1005/400/250">
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">Game Name</h2>
-                        <p class="">Game Dev Company Name</p>
-                        <p class="text-yellow-600">Price</p>
-                        <p class="">Platform</p>
-                        <div class="justify-end card-actions">
-                            <button class="btn btn-info">Edit</button>
-                            <button class="btn btn-error">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="card bordered">
-                    <figure>
-                        <img src="https://picsum.photos/id/1005/400/250">
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">Game Name</h2>
-                        <p class="">Game Dev Company Name</p>
-                        <p class="text-yellow-600">Price</p>
-                        <p class="">Platform</p>
-                        <div class="justify-end card-actions">
-                            <button class="btn btn-info">Edit</button>
-                            <button class="btn btn-error">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="card bordered">
-                    <figure>
-                        <img src="https://picsum.photos/id/1005/400/250">
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">Game Name</h2>
-                        <p class="">Game Dev Company Name</p>
-                        <p class="text-yellow-600">Price</p>
-                        <p class="">Platform</p>
-                        <div class="justify-end card-actions">
-                            <button class="btn btn-info">Edit</button>
-                            <button class="btn btn-error">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
+        <!-- <pre>{{ keyGameByUserId }}</pre> -->
 
     </div>
 </template>
 
 <script>
+    import axios from "axios";
+    const userid = localStorage.getItem("userId")
     export default {
-        name: "MyItems"
+        name: "MyItems",
+        mounted() {
+            this.fetchKeyGameByUserId(userid)
+        },
+        data() {
+            return {
+                keyGameByUserId: []
+            }
+        },
+        methods: {
+            async fetchKeyGameByUserId(userid) {
+                const response = await axios.get("http://localhost:3000/keygames/getkeybyuserid/" + userid, {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                console.log(response.data.data);
+                this.keyGameByUserId = response.data.data
+                console.log(this.keyGameByUserId);
+                // console.log(this.keyGameByUserId[this.keyGameByUserId.length -1]);
+            },
+
+            //ยังไม่เสร็จจ้าาา
+            async deleteKeyGame(id) {
+                var r = confirm("Are you sure to delete " + id + " ?");
+                if (r == true) {
+                    await axios.delete("http://localhost:3000/keygames/deleteimage/" + id , {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                    .then(()=> {
+                        axios.delete("http://localhost:3000/keygames/del/"+id)
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                    alert("Delete Success!!");
+
+                } else {
+                    return
+                }
+
+                this.$router.push("/myitems")
+            }
+
+        }
     }
 </script>
 

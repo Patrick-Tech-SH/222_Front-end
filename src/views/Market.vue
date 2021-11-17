@@ -43,6 +43,11 @@
         created() {
             this.loadProducts()
         },
+        data(){
+            return {
+                // imageURL: "http://localhost:3000/keygames/"
+            }
+        },
 
 
         methods: {

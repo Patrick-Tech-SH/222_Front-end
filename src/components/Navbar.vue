@@ -23,7 +23,7 @@
           </div>
         </div>
         <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="!this.haveToken"> Login </router-link>
-        <a class="btn btn-ghost btn-sm rounded-btn m-1" v-if="this.haveToken" @click="logout"> Logout </a>
+        <a class="btn btn-ghost btn-sm rounded-btn m-1" v-if="this.$store.state.userId != null" @click="logout"> Logout </a>
       </div>
     </div>
 

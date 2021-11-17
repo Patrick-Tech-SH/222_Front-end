@@ -4,42 +4,50 @@
             <h1 class="mb-10 text-4xl text-center">Add Item</h1>
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
                 <label>Game Name</label>
-                <input type="text" class="border p-2" v-model="newItem.gameName">
+                <input type="text" class="border p-2" v-model="newItem.gameName" @blur="checkForm">
+                <span v-if="!validateName" class="text-error">This field is required</span>
                 <label>Game Development Company</label>
                 <!-- <div v-for="(item,i) in getGameDev" :key="i">
                     <select class="border p-2" v-model="newItem.gameDev">
                         <option v-for="gamedev in item" :key="gamedev.devId" :value="gamedev.devId">{{ gamedev.devName }}</option>
                     </select>
                 </div> -->
-                <select class="border p-2" v-model="newItem.gamedeveloper_devId">
+                <select class="border p-2" v-model="newItem.gamedeveloper_devId" @blur="checkForm">
                     <option v-for="gamedev in getGameDev.data" :key="gamedev.devId" :value="gamedev.devId">{{ gamedev.devName }}</option>
                 </select>
+                <span v-if="!validateGameDev" class="text-error">This field is required</span>
                 <label>Released on</label>
-                <input type="date" class="border p-2" v-model="newItem.releaseDate">
+                <input type="date" class="border p-2" v-model="newItem.releaseDate" @blur="checkForm">
+                <span v-if="!validateDate" class="text-error">This field is required</span>
                 <label>Detail</label>
-                <textarea v-model="newItem.gameDetail" placeholder="write here" cols="50" rows="5" class="border p-2" />
+                <textarea v-model="newItem.gameDetail" placeholder="write here" cols="50" rows="5" class="border p-2" @blur="checkForm"/>
+                <span v-if="!validateGameDetail" class="text-error">This field is required</span>
                 <label>Price</label>
-                <input v-model="newItem.price" type="number" min="1" maxlength="6" class="border p-2">
+                <input v-model="newItem.price" type="number" min="1" maxlength="6" class="border p-2" @blur="checkForm">
+                <span v-if="!validatePrice" class="text-error">This field is required</span>
                 <label>Platform</label>
                 <div class="space-x-4" v-for="platform in getPlatform.data" :key="platform.pId">
-                    <input type="radio" name="#" :value="platform.pId" v-model="newItem.Platform_pId">
+                    <input type="radio" name="#" :value="platform.pId" v-model="newItem.Platform_pId" @blur="checkForm">
                     <label>{{ platform.pName }}</label>
                     <!-- <input type="radio" name="#">
                     <label>2</label>
                     <input type="radio" name="#">
                     <label>3</label> -->
                 </div>
+                <span v-if="!validatePlatform" class="text-error">This field is required</span>
                 <label>Tag</label>
                 <div class="space-x-4" v-for="tag in getTag.data" :key="tag.tagId">
-                    <input type="checkbox" :value="{id: tag.tagId}" v-model="newItem.gametags">
+                    <input type="checkbox" :value="{id: tag.tagId}" v-model="newItem.gametags" @blur="checkForm">
                     <label>{{ tag.tagName }}</label>
                     <!-- <input type="checkbox">
                     <label>2</label>
                     <input type="checkbox">
                     <label>3</label> -->
                 </div>
+                <span v-if="!validateGameTag" class="text-error">This field is required</span>
                 <label>Image</label>
-                <input type="file" id="img" name="img" accept="image/jpeg" v-on:change="handlePic">
+                <input type="file" id="img" name="img" accept="image/jpeg" v-on:change="handlePic" @blur="checkForm">
+                <span v-if="!validateFile" class="text-error">This field is required</span>
             </div>
 
             <div class="text-center" @click="addItem">
@@ -80,7 +88,15 @@ import axios from "axios";
                 },
                 imageName: "",
                 imageFile: null,
-                newKeyId: ""
+                newKeyId: "",
+                validateName: true,
+                validateGameDev: true,
+                validateDate: true,
+                validateGameDetail: true,
+                validatePrice: true,
+                validatePlatform: true,
+                validateGameTag: true,
+                validateFile: true,
             }
         },
         methods:{
@@ -127,6 +143,7 @@ import axios from "axios";
             async addItem() {
                 console.log(this.newItem);
                 // this.$router.push("/addimage")
+                this.checkForm()
                 await axios.post("http://localhost:3000/keygames/add" , this.newItem)
                 .then((response) => {
                     this.newKeyId = response.data.keyId
@@ -154,6 +171,17 @@ import axios from "axios";
                     {
                         "Content-Type": "multipart/form-data",
                     }
+            },
+
+            checkForm() {
+                this.validateName = (this.newItem.gameName != "") ? true:false
+                this.validateGameDev = (this.newItem.gamedeveloper_devId != "") ? true:false
+                this.validateDate = (this.newItem.releaseDate != "") ? true:false
+                this.validateGameDetail = (this.newItem.gameDetail != "") ? true:false
+                this.validatePrice = (this.newItem.price > 0) ? true:false
+                this.validatePlatform = (this.newItem.Platform_pId != "") ? true:false
+                this.validateGameTag = (this.newItem.gametags.length > 0) ? true:false
+                this.validateFile = (this.imageFile != null) ? true:false
             }
         },
     }

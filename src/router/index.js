@@ -8,6 +8,7 @@ import Cart from "../views/Cart.vue"
 import ProductDetail from "../views/ProductDetail.vue"
 import AddItem from "../views/AddItem.vue"
 import AddImage from "../views/AddImage.vue"
+import EditItem from "../views/EditItem.vue"
 
 const routes = [
   {
@@ -63,6 +64,11 @@ const routes = [
     path: "/addimage",
     name: "AddImage",
     component: AddImage,
+  },
+  {
+    path: "/edititem/:id",
+    name: "EditItem",
+    component: EditItem,
   },
 ];
 

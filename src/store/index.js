@@ -2,6 +2,7 @@ import {
   createStore
 } from "vuex";
 import axios from "axios";
+// import { get } from "core-js/core/dict";
 
 export default createStore({
   state: {
@@ -28,7 +29,8 @@ export default createStore({
       },
       keycategory: [],
       cart: []
-    }
+    },
+    itemToEdit:{}
 
   },
 
@@ -38,6 +40,15 @@ export default createStore({
     },
     GET_PRODUCT_BY_ID(state, payload) {
       state.itemById = payload
+    },
+    GET_PRODUCT_BY_ID_TO_EDIT(state, payload){
+      state.itemToEdit = payload
+    },
+    SET_USERID(state, payload){
+      state.userId = payload
+    },
+    SET_TOKEN(state, payload){
+      state.token = payload
     }
 
   },
@@ -65,6 +76,17 @@ export default createStore({
         commit("GET_PRODUCT_BY_ID", response.data.data[0])
     },
 
+    async getItemToEdit ({ commit }, id) {
+        const response = await axios.get('http://localhost:3000/keygames/getbyid/' + id)
+        console.log(response.data.data[0]);
+        commit("GET_PRODUCT_BY_ID_TO_EDIT", response.data.data[0])
+    },
+
+    getLocalStorage ({commit}) {
+        commit("SET_USERID" , localStorage.getItem("userId"))
+        commit("SET_TOKEN" , localStorage.getItem("token"))
+    }
+
   },
 
   modules: {},
@@ -73,5 +95,6 @@ export default createStore({
     items: (state) => state.items,
     token: (state) => !!state.token,
     itemById: (state) => state.itemById,
+    itemToEdit: (state) => state.itemToEdit
   }
 });
