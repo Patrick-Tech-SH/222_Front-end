@@ -1,6 +1,6 @@
 <template>
   <!-- ProductList -->
-  <div class="mx-9 pt-10">
+  <div class="mx-5 pt-10">
     <!-- <h1 class="text-2xl font-bold">All Games</h1> -->
 
     <!-- Product -->
@@ -8,7 +8,7 @@
       <div>
         <div class="card bordered cursor-pointer">
           <figure @click="this.$router.push(`/productdetail/${ product.keyId }`)">
-            <img :src="`http://localhost:3000/keygames/getimage/${ product.keyId }`" />
+            <img :src="`http://localhost:3000/keygames/getimage/${ product.keyId }`" class="h-full object-cover md:h-60 lg:h-96"/>
           </figure>
           <div class="card-body">
             <h2 class="card-title">{{ product.gameName }}</h2>

@@ -16,7 +16,7 @@
             <div v-for="item in keyGameByUserId" :key="item.keyId">
                 <div class="card bordered">
                     <figure @click="this.$router.push(`/edititem/${ item.keyId }`)">
-                        <img src="https://picsum.photos/id/1005/400/250">
+                        <img :src="`http://localhost:3000/keygames/getimage/${ item.keyId }`" class="h-full object-cover md:h-60 lg:h-96">
                     </figure>
                     <div class="card-body">
                         <h2 class="card-title">{{ item.gameName }}</h2>

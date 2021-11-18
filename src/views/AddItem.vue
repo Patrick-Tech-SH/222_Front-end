@@ -162,6 +162,8 @@ import axios from "axios";
                 .catch((error) => {
                     console.log(error);
                 })
+                alert("Add Success!!");
+                this.$router.push("/myitems")
             },
 
             async addImage () {

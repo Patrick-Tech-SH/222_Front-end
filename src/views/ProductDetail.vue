@@ -1,10 +1,10 @@
 <template>
     <div>
-        <pre>{{ itemById }}</pre>
+        <!-- <pre>{{ itemById }}</pre> -->
         <div class="flex flex-col md:flex-row md:justify-around	md:mb-32 md:mt-16 ">
             <!-- image -->
             <div class="mt-6 p-6 md:w-6/12 md:h-2/4">
-                <img src="../assets/few.jpg" alt="product image" class="object-cover md:object-center">
+                <img :src="`http://localhost:3000/keygames/getimage/${ itemById.keyId }`" alt="product image" class="object-cover md:object-center mx-auto justify-items-center items-center">
             </div>
 
             <!-- detail -->
