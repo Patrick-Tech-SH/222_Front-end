@@ -9,6 +9,8 @@ import ProductDetail from "../views/ProductDetail.vue"
 import AddItem from "../views/AddItem.vue"
 import AddImage from "../views/AddImage.vue"
 import EditItem from "../views/EditItem.vue"
+import AdminLogin from "../views/AdminLogin.vue"
+import AdminPage from "../views/AdminPage.vue"
 
 const routes = [
   {
@@ -69,6 +71,16 @@ const routes = [
     path: "/edititem/:id",
     name: "EditItem",
     component: EditItem,
+  },
+  {
+    path: "/adminlogin",
+    name: "AdminLogin",
+    component: AdminLogin,
+  },
+  {
+    path: "/adminpage",
+    name: "AdminPage",
+    component: AdminPage,
   },
 ];
 

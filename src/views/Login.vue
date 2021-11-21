@@ -28,12 +28,18 @@
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
                 <label class="">Email</label>
                 <input type="email" class="border p-2" v-model="user.email">
+                <span v-if="!validateEmail" class="text-error">This field is required</span>
                 <label>Password</label>
                 <input type="password" class="border p-2" v-model="user.password">
+                <span v-if="!validatePassword" class="text-error">This field is required</span>
             </div>
 
             <div class="text-right mb-5 md:px-10 lg:px-48 text-blue-700 font-bold underline">
                 <router-link to="/register">Sign Up</router-link>
+            </div>
+
+            <div class="text-right mb-5 md:px-10 lg:px-48 text-blue-700 font-bold underline">
+                <router-link to="/adminlogin">Admin</router-link>
             </div>
 
             <div class="text-center" @click="login">
@@ -56,7 +62,9 @@
                 user: {
                     email: "",
                     password: ""
-                }
+                },
+                validateEmail: true,
+                validatePassword: true,
             }
         },
         methods: {

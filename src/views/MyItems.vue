@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <h2 class="card-title">{{ item.gameName }}</h2>
                         <p class="">{{ item.gamedeveloper.devName }}</p>
-                        <p class="text-yellow-600">{{ item.price }}</p>
+                        <p class="text-yellow-600">$ {{ item.price }}</p>
                         <p class="">{{ item.platform.pName }}</p>
                         <div class="justify-end card-actions">
                             <button class="btn btn-info" @click="this.$router.push(`/edititem/${ item.keyId }`)">Edit</button>
@@ -59,7 +59,7 @@
                 // console.log(this.keyGameByUserId[this.keyGameByUserId.length -1]);
             },
 
-            //ยังไม่เสร็จจ้าาา
+
             async deleteKeyGame(id) {
                 var r = confirm("Are you sure to delete " + id + " ?");
                 if (r == true) {

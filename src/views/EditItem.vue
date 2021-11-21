@@ -3,7 +3,8 @@
 
         <pre>{{ $route.params.id }}</pre>
         <pre>{{ itemToEdit }}</pre>
-        <pre>{{ getGameDev }}</pre>
+        <pre>{{ editItem }}</pre>
+        <!-- <pre>{{ getGameDev }}</pre> -->
 
         <div class="md:px-5 border px-5 py-3 xl:py-8 m-3 rounded-md md:mx-32 xl:mx-96 shadow-md xl:my-48 my-28">
             <h1 class="mb-10 text-4xl text-center">Edit Item</h1>
@@ -16,39 +17,48 @@
                         <option v-for="gamedev in item" :key="gamedev.devId" :value="gamedev.devId">{{ gamedev.devName }}</option>
                     </select>
                 </div> -->
-                <select class="border p-2">
+                <select class="border p-2" name="gamedev" v-model="itemToEdit.gamedeveloper.devId">
                     <option v-for="gamedev in getGameDev.data" :key="gamedev.devId" :value="gamedev.devId">
                         {{ gamedev.devName }}</option>
                 </select>
                 <label>Released on</label>
-                <input type="date" class="border p-2">
+                <input type="date" class="border p-2" v-model="itemToEdit.releaseDate">
+                <!-- <pre>{{ typeof itemToEdit.releaseDate }}</pre> -->
+                <!-- <label>Old Date {{ itemToEdit.releaseDate }}</label> -->
                 <label>Detail</label>
-                <textarea v-model="itemToEdit.gameDetail" placeholder="write here" cols="50" rows="5" class="border p-2" />
+                <textarea v-model="itemToEdit.gameDetail" placeholder="write here" cols="50" rows="5"
+                    class="border p-2" />
                 <label>Price</label>
-                <input type="number" min="1" maxlength="6" class="border p-2">
+                <input type="number" min="1" maxlength="6" class="border p-2" v-model="itemToEdit.price">
                 <label>Platform</label>
-                <div class="space-x-4">
-                    <input type="radio" name="#">
-                    <label>{{  }}</label>
+                <div class="space-x-4" v-for="platform in getPlatform.data" :key="platform.pId">
+                    <input type="radio" name="#" :value="platform.pId" v-model="itemToEdit.platform.pId">
+                    <label>{{ platform.pName }}</label>
                     <!-- <input type="radio" name="#">
                     <label>2</label>
                     <input type="radio" name="#">
                     <label>3</label> -->
                 </div>
-                <label>Tag</label>
-                <div class="space-x-4">
-                    <input type="checkbox">
-                    <label>{{  }}</label>
+                <button class="btn" @click="isEditTag =! isEditTag">ต้องการเปลี่ยน tag</button>
+                <div v-if="isEditTag">
+                    <label>Tag <i><b>***กรุณาเลือกใหม่อีกครั้ง</b></i></label>
+                    <div class="space-x-4" v-for="tag in getTag.data" :key="tag.tagId">
+                    <input type="checkbox" v-model="itemToEdit.gametags" :value="{id: tag.tagId}">
+                    <label>{{ tag.tagName }}</label>
                     <!-- <input type="checkbox">
                     <label>2</label>
                     <input type="checkbox">
                     <label>3</label> -->
+                    <!-- <pre>{{ itemToEdit.keycategory }}</pre> -->
+                    </div>
                 </div>
-                <label>Image</label>
+
+                <!-- <pre>{{ itemToEdit.keycategory[0].gametags_tagId }}</pre> -->
+                <label>Image <i><b>***ถ้าไม่เปลี่ยนรูป ไม่ต้อง input มานะครับ</b></i></label>
                 <input type="file" id="img" name="img" accept="image/jpeg">
             </div>
 
-            <div class="text-center" @click="editItem">
+            <div class="text-center" @click="sendEditItem">
                 <button class="btn btn-accent mx-auto">Edit Item</button>
             </div>
         </div>
@@ -64,15 +74,37 @@ export default {
             getGameDev: [],
             getPlatform: [],
             getTag: [],
-            itemToEdit:{}
+            itemToEdit:{
+                gameName: "",
+                gamedeveloper: {
+                    devId: null
+                },
+                platform: {
+                    pId: ""
+                },
+                releaseDate: ""
+            },
+            editItem: {
+                gameName: "",
+                gamedeveloper_devId: "",
+                releaseDate: "",
+                gameDetail: "",
+                user_userId: Number(localStorage.getItem("userId")),
+                price: "",
+                Platform_pId: "",
+                gametags: [],
+            },
+            isEditTag: false
         }
     },
     mounted(){
+        // this.getItemToEdit(this.$route.params.id)
         // this.getItemToEdit(this.$route.params.id)
         this.getItemToEdit(this.$route.params.id)
         this.fetchGameDev()
         this.fetchPlatform()
         this.fetchTag()
+        console.log(this.getTag);
     },
     methods:{
 
@@ -80,7 +112,15 @@ export default {
             const response = await axios.get('http://localhost:3000/keygames/getbyid/' + id)
             console.log(response.data.data[0]);
             this.itemToEdit = response.data.data[0]
+            let newDate = new Date (this.itemToEdit.releaseDate)
+            this.itemToEdit.releaseDate = newDate.toLocaleDateString('en-CA')
             console.log(this.itemToEdit);
+            console.log(this.itemToEdit.keycategory[0]);
+            this.itemToEdit.gametags = []
+            for (let i of this.itemToEdit.keycategory){
+                this.itemToEdit.gametags.push({"id": i.gametags_tagId})
+            }
+
         },
 
             async fetchGameDev(){
@@ -116,6 +156,30 @@ export default {
                         console.error(error)
                 }
             },
+
+            // formatDate (date){
+            //     let newDate = new Date (date)
+            //     this.itemToEdit.releaseDate = newDate.toLocaleDateString('en-CA')
+            //     // return newDate.toISOString().slice(0,10)
+            //     console.log(newDate.toLocaleDateString('en-CA'));
+            //     return newDate.toLocaleDateString('en-CA')
+            // }
+
+            async sendEditItem (){
+                const body = {
+                    gameName: this.itemToEdit.gameName,
+                    gameDetail: this.itemToEdit.gameDetail,
+                    price: this.itemToEdit.price,
+                    releaseDate: this.itemToEdit.releaseDate,
+                    gamedeveloper_devId: this.itemToEdit.gamedeveloper.devId,
+                    Platform_pId: this.itemToEdit.platform.pId,
+                    user_userId: Number(localStorage.getItem("userId")),
+                    gametags:this.itemToEdit.gametags
+                }
+                console.log(body);
+                await axios.put(`http://localhost:3000/keygames/update/${this.$route.params.id}`, body ,{headers:{'Content-Type':'appication/json', Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                // this.$router.push('/myitems')
+            }
     },
     computed: {
 
