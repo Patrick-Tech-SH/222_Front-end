@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
     export default {
         name: "AdminLogin",
         data() {
@@ -36,7 +37,7 @@
         },
         methods:{
             login(){
-
+                axios.post("http://localhost:3000/admin/login", this.admin)
             }
         }
     }

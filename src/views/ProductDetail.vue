@@ -34,9 +34,10 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
     import {
         mapActions,
-        mapGetters
+        // mapGetters
     } from 'vuex'
     export default {
         name: "ProductDetail",
@@ -49,6 +50,7 @@
         data () {
             return {
                 // itemById:[]
+
             }
         },
         methods: {
@@ -57,9 +59,16 @@
             })
         },
         computed: {
-            ...mapGetters({
-                itemById: "itemById",
-            })
+            // ...mapGetters({
+            //     itemById: "itemById",
+            // }),
+
+            itemById (){
+                let item = this.$store.state.itemById
+                item.releaseDate = dayjs(item.releaseDate).format("YYYY-MM-DD")
+                return item
+            }
+
         }
 
     }

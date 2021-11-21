@@ -55,7 +55,7 @@
 
                 <!-- <pre>{{ itemToEdit.keycategory[0].gametags_tagId }}</pre> -->
                 <label>Image <i><b>***ถ้าไม่เปลี่ยนรูป ไม่ต้อง input มานะครับ</b></i></label>
-                <input type="file" id="img" name="img" accept="image/jpeg">
+                <input type="file" id="img" name="img" accept="image/jpeg" v-on:change="handlePic">
             </div>
 
             <div class="text-center" @click="sendEditItem">
@@ -67,6 +67,7 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 export default {
     name: "EditItem",
     data () {
@@ -94,7 +95,9 @@ export default {
                 Platform_pId: "",
                 gametags: [],
             },
-            isEditTag: false
+            isEditTag: false,
+            imageName: "",
+            imageFile: null,
         }
     },
     mounted(){
@@ -113,7 +116,7 @@ export default {
             console.log(response.data.data[0]);
             this.itemToEdit = response.data.data[0]
             let newDate = new Date (this.itemToEdit.releaseDate)
-            this.itemToEdit.releaseDate = newDate.toLocaleDateString('en-CA')
+            this.itemToEdit.releaseDate = newDate.toISOString().split('T')[0]
             console.log(this.itemToEdit);
             console.log(this.itemToEdit.keycategory[0]);
             this.itemToEdit.gametags = []
@@ -166,20 +169,35 @@ export default {
             // }
 
             async sendEditItem (){
-                const body = {
+                const content = {
                     gameName: this.itemToEdit.gameName,
                     gameDetail: this.itemToEdit.gameDetail,
                     price: this.itemToEdit.price,
-                    releaseDate: this.itemToEdit.releaseDate,
+                    releaseDate: dayjs(this.itemToEdit.releaseDate).format("YYYY-MM-DD"),
                     gamedeveloper_devId: this.itemToEdit.gamedeveloper.devId,
                     Platform_pId: this.itemToEdit.platform.pId,
                     user_userId: Number(localStorage.getItem("userId")),
                     gametags:this.itemToEdit.gametags
                 }
-                console.log(body);
-                await axios.put(`http://localhost:3000/keygames/update/${this.$route.params.id}`, body ,{headers:{'Content-Type':'appication/json', Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                console.log(content);
+                await axios.put(`http://localhost:3000/keygames/update/${this.$route.params.id}`, content ,{headers:{'Content-Type':'application/json', Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                if (this.imageFile != null) {
+                    var formdata = new FormData();
+                    formdata.append("file", this.imageFile);
+                    axios.put(`http://localhost:3000/keygames/updateimage/${this.$route.params.id}`, formdata ,{headers:{"Content-Type": "multipart/form-data", Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                }
+                alert("Edit Success")
+                this.$router.push("/myitems")
                 // this.$router.push('/myitems')
-            }
+            },
+
+            handlePic(event) {
+                this.imageName = event.target.files[0].name;
+                //console.log(this.imageName);
+                this.imageFile = event.target.files[0]
+                //console.log(event.target.files[0]);
+                console.log(this.imageFile);
+            },
     },
     computed: {
 
