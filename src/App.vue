@@ -5,8 +5,8 @@
   </div>
   <router-view /> -->
   <div>
-    <navbar />
-    <router-view />
+    <navbar :key="this.$store.state.refreshPage"/>
+    <router-view :key="this.$store.state.refreshPage"/>
     <Footer />
   </div>
 </template>

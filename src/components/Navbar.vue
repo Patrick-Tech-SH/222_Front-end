@@ -10,7 +10,7 @@
         <router-link to="/" class="btn btn-ghost btn-sm rounded-btn"> Home </router-link>
         <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
         <router-link to="/market" class="btn btn-ghost btn-sm rounded-btn"> Market </router-link>
-        <router-link to="/myitems" class="btn btn-ghost btn-sm rounded-btn"> My Items </router-link>
+        <router-link to="/myitems" class="btn btn-ghost btn-sm rounded-btn" v-if="this.$store.state.token  != null"> My Items </router-link>
         <router-link to="/cart" class="btn btn-ghost btn-sm rounded-btn"> Cart </router-link>
       </div>
     </div>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="!this.haveToken"> Login </router-link>
-        <a class="btn btn-ghost btn-sm rounded-btn m-1" v-if="this.$store.state.userId != null" @click="logout"> Logout </a>
+        <a class="btn btn-ghost btn-sm rounded-btn m-1" v-else @click="logout"> Logout </a>
       </div>
     </div>
 
@@ -37,25 +37,23 @@
       </button>
       <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-neutral rounded-box w-52 text-white">
         <li>
-          <a>Home</a>
+          <router-link to="/" class="btn btn-ghost btn-sm rounded-btn"> Home </router-link>
         </li>
         <li>
-          <a>About</a>
+          <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
         </li>
         <li>
-          <a>Market</a>
+          <router-link to="/market" class="btn btn-ghost btn-sm rounded-btn"> Market </router-link>
         </li>
         <li>
-          <a>My Items</a>
+          <router-link to="/myitems" class="btn btn-ghost btn-sm rounded-btn" v-if="this.$store.state.token  != null"> My Items </router-link>
         </li>
         <li>
-          <a>Cart</a>
+          <router-link to="/cart" class="btn btn-ghost btn-sm rounded-btn"> Cart </router-link>
         </li>
         <li>
-          <a>Login</a>
-        </li>
-        <li>
-          <a>Logout</a>
+          <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="!this.haveToken"> Login </router-link>
+          <a class="btn btn-ghost btn-sm rounded-btn m-1" v-else @click="logout"> Logout </a>
         </li>
       </ul>
     </div>
@@ -67,6 +65,11 @@
   import axios from "axios";
   export default {
     name: "Navbar",
+    data () {
+      return {
+        // checkAccount: localStorage.getItem('token')
+      }
+    },
     methods:{
       async logout () {
         axios.defaults.headers.common["Authorization"] =
@@ -87,7 +90,8 @@
     computed: {
       ...mapGetters({
         haveToken: "token"
-      })
+      }),
+
     }
   };
 </script>

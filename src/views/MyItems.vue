@@ -43,6 +43,9 @@
     export default {
         name: "MyItems",
         mounted() {
+            if (this.$store.state.token == null) {
+                this.$router.push("/")
+            }
             this.fetchKeyGameByUserId(userid)
         },
         data() {

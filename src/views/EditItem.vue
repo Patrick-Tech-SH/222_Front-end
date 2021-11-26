@@ -1,49 +1,55 @@
 <template>
     <div>
 
-        <pre>{{ $route.params.id }}</pre>
+        <!-- <pre>{{ $route.params.id }}</pre>
         <pre>{{ itemToEdit }}</pre>
-        <pre>{{ editItem }}</pre>
+        <pre>{{ editItem }}</pre> -->
         <!-- <pre>{{ getGameDev }}</pre> -->
 
         <div class="md:px-5 border px-5 py-3 xl:py-8 m-3 rounded-md md:mx-32 xl:mx-96 shadow-md xl:my-48 my-28">
             <h1 class="mb-10 text-4xl text-center">Edit Item</h1>
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
                 <label>Game Name</label>
-                <input type="text" class="border p-2" v-model="itemToEdit.gameName">
+                <input type="text" class="border p-2" v-model="itemToEdit.gameName" @blur="checkForm()">
+                <span v-if="validateName" class="text-error">This field is required</span>
                 <label>Game Development Company</label>
                 <!-- <div v-for="(item,i) in getGameDev" :key="i">
                     <select class="border p-2" v-model="newItem.gameDev">
                         <option v-for="gamedev in item" :key="gamedev.devId" :value="gamedev.devId">{{ gamedev.devName }}</option>
                     </select>
                 </div> -->
-                <select class="border p-2" name="gamedev" v-model="itemToEdit.gamedeveloper.devId">
+                <select class="border p-2" name="gamedev" v-model="itemToEdit.gamedeveloper.devId" @blur="checkForm()">
                     <option v-for="gamedev in getGameDev.data" :key="gamedev.devId" :value="gamedev.devId">
                         {{ gamedev.devName }}</option>
                 </select>
+                <span v-if="validateGameDev" class="text-error">This field is required</span>
                 <label>Released on</label>
-                <input type="date" class="border p-2" v-model="itemToEdit.releaseDate">
+                <input type="date" class="border p-2" v-model="itemToEdit.releaseDate" @blur="checkForm()">
+                <span v-if="validateDate" class="text-error">This field is required</span>
                 <!-- <pre>{{ typeof itemToEdit.releaseDate }}</pre> -->
                 <!-- <label>Old Date {{ itemToEdit.releaseDate }}</label> -->
                 <label>Detail</label>
                 <textarea v-model="itemToEdit.gameDetail" placeholder="write here" cols="50" rows="5"
-                    class="border p-2" />
+                    class="border p-2"  @blur="checkForm()" />
+                <span v-if="validateGameDetail" class="text-error">This field is required</span>
                 <label>Price</label>
-                <input type="number" min="1" maxlength="6" class="border p-2" v-model="itemToEdit.price">
+                <input type="number" min="1" maxlength="6" class="border p-2" v-model="itemToEdit.price" @blur="checkForm()">
+                <span v-if="validatePrice" class="text-error">This field is required</span>
                 <label>Platform</label>
                 <div class="space-x-4" v-for="platform in getPlatform.data" :key="platform.pId">
-                    <input type="radio" name="#" :value="platform.pId" v-model="itemToEdit.platform.pId">
+                    <input type="radio" name="#" :value="platform.pId" v-model="itemToEdit.platform.pId" @blur="checkForm()">
                     <label>{{ platform.pName }}</label>
                     <!-- <input type="radio" name="#">
                     <label>2</label>
                     <input type="radio" name="#">
                     <label>3</label> -->
                 </div>
+                <span v-if="validatePlatform" class="text-error">This field is required</span>
                 <button class="btn" @click="isEditTag =! isEditTag">ต้องการเปลี่ยน tag</button>
                 <div v-if="isEditTag">
                     <label>Tag <i><b>***กรุณาเลือกใหม่อีกครั้ง</b></i></label>
                     <div class="space-x-4" v-for="tag in getTag.data" :key="tag.tagId">
-                    <input type="checkbox" v-model="itemToEdit.gametags" :value="{id: tag.tagId}">
+                    <input type="checkbox" v-model="itemToEdit.gametags" :value="{id: tag.tagId}" @blur="checkForm()">
                     <label>{{ tag.tagName }}</label>
                     <!-- <input type="checkbox">
                     <label>2</label>
@@ -51,11 +57,13 @@
                     <label>3</label> -->
                     <!-- <pre>{{ itemToEdit.keycategory }}</pre> -->
                     </div>
+                    <span v-if="validateGameTag" class="text-error">This field is required</span>
                 </div>
 
                 <!-- <pre>{{ itemToEdit.keycategory[0].gametags_tagId }}</pre> -->
                 <label>Image <i><b>***ถ้าไม่เปลี่ยนรูป ไม่ต้อง input มานะครับ</b></i></label>
                 <input type="file" id="img" name="img" accept="image/jpeg" v-on:change="handlePic">
+
             </div>
 
             <div class="text-center" @click="sendEditItem">
@@ -85,19 +93,27 @@ export default {
                 },
                 releaseDate: ""
             },
-            editItem: {
-                gameName: "",
-                gamedeveloper_devId: "",
-                releaseDate: "",
-                gameDetail: "",
-                user_userId: Number(localStorage.getItem("userId")),
-                price: "",
-                Platform_pId: "",
-                gametags: [],
-            },
+            // editItem: {
+            //     gameName: "",
+            //     gamedeveloper_devId: "",
+            //     releaseDate: "",
+            //     gameDetail: "",
+            //     user_userId: Number(localStorage.getItem("userId")),
+            //     price: "",
+            //     Platform_pId: "",
+            //     gametags: [],
+            // },
             isEditTag: false,
             imageName: "",
             imageFile: null,
+            validateName: false,
+            validateGameDev: false,
+            validateDate: false,
+            validateGameDetail: false,
+            validatePrice: false,
+            validatePlatform: false,
+            validateGameTag: false,
+            validateFile: false,
         }
     },
     mounted(){
@@ -169,6 +185,10 @@ export default {
             // }
 
             async sendEditItem (){
+                this.checkForm()
+                if (this.validateName || this.validateGameDev || this.validateDate || this.validateGameDetail || this.validatePrice || this.validatePlatform || this.validateGameTag) {
+                    return
+                }
                 const content = {
                     gameName: this.itemToEdit.gameName,
                     gameDetail: this.itemToEdit.gameDetail,
@@ -198,6 +218,16 @@ export default {
                 //console.log(event.target.files[0]);
                 console.log(this.imageFile);
             },
+
+            checkForm() {
+                this.validateName = (this.itemToEdit.gameName == "") ? true:false
+                this.validateGameDev = (this.itemToEdit.gamedeveloper.devId == "") ? true:false
+                this.validateDate = (this.itemToEdit.releaseDate == "") ? true:false
+                this.validateGameDetail = (this.itemToEdit.gameDetail == "") ? true:false
+                this.validatePrice = (this.itemToEdit.price < 0 || this.itemToEdit.price == 0) ? true:false
+                this.validatePlatform = (this.itemToEdit.platform.pId == "") ? true:false
+                this.validateGameTag = (this.itemToEdit.gametags.length <= 0) ? true:false
+            }
     },
     computed: {
 

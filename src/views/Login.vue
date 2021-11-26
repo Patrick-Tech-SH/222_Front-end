@@ -27,11 +27,11 @@
             <h1 class="mb-10 text-4xl text-center">Login</h1>
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
                 <label class="">Email</label>
-                <input type="email" class="border p-2" v-model="user.email">
-                <span v-if="!validateEmail" class="text-error">This field is required</span>
+                <input type="email" class="border p-2" v-model="user.email" @blur="checkLogin()">
+                <span v-if="validateEmail" class="text-error">This field is required</span>
                 <label>Password</label>
-                <input type="password" class="border p-2" v-model="user.password">
-                <span v-if="!validatePassword" class="text-error">This field is required</span>
+                <input type="password" class="border p-2" v-model="user.password" @blur="checkLogin()">
+                <span v-if="validatePassword" class="text-error">This field is required</span>
             </div>
 
             <div class="text-right mb-5 md:px-10 lg:px-48 text-blue-700 font-bold underline">
@@ -63,16 +63,21 @@
                     email: "",
                     password: ""
                 },
-                validateEmail: true,
-                validatePassword: true,
+                validateEmail: false,
+                validatePassword: false,
             }
         },
         methods: {
             login() {
+                this.checkLogin()
+                if (this.validateEmail || this.validatePassword) {
+                    return
+                }
                 axios.post("http://localhost:3000/user/login", this.user)
                     .then((response) => {
                         // return response.data;
                         // console.log(response.data.token);
+
                         localStorage.setItem("token" ,response.data.token)
                         localStorage.setItem("userId" ,response.data.userId)
                         this.$store.state.token = response.data.token
@@ -82,11 +87,26 @@
                         console.log(this.$store.state.token);
                         console.log(this.$store.state.userId);
                         console.log("Login success!!");
+                        this.$store.dispatch('refresh')
                         this.$router.push("/")
                     })
                     .catch((error) => {
-                        console.log(error);
+                        alert(error.response.data)
+                        // console.log(error);
                     })
+            },
+
+            checkLogin () {
+                if (this.user.email == "") {
+                    this.validateEmail = true
+                }else{
+                    this.validateEmail = false
+                }
+                if (this.user.password == "") {
+                    this.validatePassword = true
+                }else{
+                    this.validatePassword = false
+                }
             }
         }
     }

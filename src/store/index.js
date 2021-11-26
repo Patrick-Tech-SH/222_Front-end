@@ -9,6 +9,8 @@ export default createStore({
     items: [],
     token: "",
     userId: "",
+    adminToken: "",
+    adminId: "",
     itemById: {
       keyId: "",
       gameName: "",
@@ -30,7 +32,8 @@ export default createStore({
       keycategory: [],
       cart: []
     },
-    itemToEdit:{}
+    itemToEdit:{},
+    refreshPage: 0
 
   },
 
@@ -49,6 +52,9 @@ export default createStore({
     },
     SET_TOKEN(state, payload){
       state.token = payload
+    },
+    UPDATE_PAGE(state){
+      state.refreshPage ++
     }
 
   },
@@ -85,6 +91,10 @@ export default createStore({
     getLocalStorage ({commit}) {
         commit("SET_USERID" , localStorage.getItem("userId"))
         commit("SET_TOKEN" , localStorage.getItem("token"))
+    },
+
+    refresh ({commit}) {
+      commit("UPDATE_PAGE")
     }
 
   },

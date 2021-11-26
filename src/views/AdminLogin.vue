@@ -4,11 +4,11 @@
             <h1 class="mb-10 text-4xl text-center">Admin Login</h1>
             <div class="flex flex-col mb-6 gap-3 md:px-10 lg:px-48">
                 <label class="">Username</label>
-                <input type="text" class="border p-2" v-model="admin.username">
-                <!-- <span v-if="!validateEmail" class="text-error">This field is required</span> -->
+                <input type="text" class="border p-2" v-model="admin.username" @blur="checkLogin()">
+                <span v-if="validateName" class="text-error">This field is required</span>
                 <label>Password</label>
-                <input type="password" class="border p-2" v-model="admin.password">
-                <!-- <span v-if="!validatePassword" class="text-error">This field is required</span> -->
+                <input type="password" class="border p-2" v-model="admin.password" @blur="checkLogin()">
+                <span v-if="validatePassword" class="text-error">This field is required</span>
             </div>
 
             <!-- <div class="text-right mb-5 md:px-10 lg:px-48 text-blue-700 font-bold underline">
@@ -31,13 +31,51 @@ import axios from 'axios'
                 admin: {
                     username: "",
                     password: "",
-                }
+                },
+                validateName: false,
+                validatePassword: false,
 
             }
         },
         methods:{
             login(){
+                this.checkLogin()
+                if (this.validateName || this.validatePassword) {
+                    return
+                }
                 axios.post("http://localhost:3000/admin/login", this.admin)
+                .then((response) => {
+
+                        // return response.data;
+                        // console.log(response.data.token);
+                        localStorage.setItem("adminToken" ,response.data.token)
+                        localStorage.setItem("adminId" ,response.data.adminId)
+                        this.$store.state.adminToken = response.data.token
+                        this.$store.state.adminId = response.data.adminId
+                        console.log(localStorage.getItem("adminToken"));
+                        console.log(localStorage.getItem("adminId"));
+                        console.log(this.$store.state.adminToken);
+                        console.log(this.$store.state.adminId);
+                        console.log("Login success!!");
+                        this.$router.push("/adminpage")
+                    })
+                .catch((error) => {
+                    alert(error.response.data)
+                    console.log(error);
+                })
+            },
+
+            checkLogin () {
+                if (this.admin.username == "") {
+                    this.validateName = true
+                }else{
+                    this.validateName = false
+                }
+                if (this.admin.password == "") {
+                    this.validatePassword = true
+                }else{
+                    this.validatePassword = false
+                }
             }
         }
     }
