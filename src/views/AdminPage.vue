@@ -41,7 +41,7 @@
                 </tr>
             </tbody>
         </table>
-        <pre>{{ getAllUsers }}</pre>
+        <!-- <pre>{{ getAllUsers }}</pre> -->
     </div>
 </template>
 
@@ -60,7 +60,7 @@ import axios from "axios";
         },
         methods:{
             async fetchAllUsers(){
-                const response = await axios.get("http://localhost:3000/admin/getuser", {headers:{Authorization: 'Bearer ' + localStorage.getItem("adminToken")}})
+                const response = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+"/admin/getuser", {headers:{Authorization: 'Bearer ' + localStorage.getItem("adminToken")}})
                 console.log(response.data.data)
                 this.getAllUsers = response.data.data
                 // console.log(response.data);
@@ -69,7 +69,7 @@ import axios from "axios";
             async changeStatus(userId){
                 // let header = 'Bearer ' + localStorage.getItem("adminToken")
                 console.log('Bearer ' + localStorage.getItem("adminToken"));
-                await axios.put(`http://localhost:3000/admin/manage/${userId}`, null,{headers:{Authorization: `Bearer ${localStorage.getItem("adminToken")}`}})
+                await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}/admin/manage/${userId}`, null,{headers:{Authorization: `Bearer ${localStorage.getItem("adminToken")}`}})
                 .then(response => {
                     alert(response.data)
                     // this.$router.push("/adminpage")

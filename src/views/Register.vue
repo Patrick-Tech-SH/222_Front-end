@@ -20,7 +20,7 @@
         <span v-if="validateLastName" class="text-error">This field is required</span>
       </div>
 
-      <pre>{{ newUser }}</pre>
+      <!-- <pre>{{ newUser }}</pre> -->
 
       <div class="text-center" @click="addNewUser">
         <button class="btn btn-active mx-auto">Sign Up</button>
@@ -56,7 +56,7 @@ import axios from "axios";
         if (this.validateName || this.validatePassword || this.validateEmail || this.validateFirstName || this.validateLastName) {
           return
         }
-        await axios.post("http://localhost:3000/user/register" , this.newUser)
+        await axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/user/register" , this.newUser)
           .then(response => {
             alert(response.data)
             this.$router.push('/')

@@ -55,9 +55,9 @@
             </div>
         </div>
 
-        <pre>{{ newItem }}</pre>
+        <!-- <pre>{{ newItem }}</pre> -->
 
-        <pre>{{ getTag }}</pre>
+        <!-- <pre>{{ getTag }}</pre> -->
     </div>
 </template>
 
@@ -102,7 +102,7 @@ import axios from "axios";
         methods:{
             async fetchGameDev(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/gamedeveloper/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/gamedeveloper/')
                     if (data) {
                         // console.log(data);
                         this.getGameDev = data
@@ -113,7 +113,7 @@ import axios from "axios";
             },
             async fetchPlatform(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/platform/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/platform/')
                     if (data) {
                         // console.log(data);
                         this.getPlatform = data
@@ -124,7 +124,7 @@ import axios from "axios";
             },
             async fetchTag(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/gametags/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/gametags/')
                     if (data) {
                         // console.log(data);
                         this.getTag = data
@@ -144,7 +144,7 @@ import axios from "axios";
                 console.log(this.newItem);
                 // this.$router.push("/addimage")
                 this.checkForm()
-                await axios.post("http://localhost:3000/keygames/add" , this.newItem)
+                await axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/add" , this.newItem)
                 .then((response) => {
                     this.newKeyId = response.data.keyId
                     console.log(this.newKeyId);
@@ -169,7 +169,7 @@ import axios from "axios";
             async addImage () {
                 var formdata = new FormData();
                 formdata.append("file", this.imageFile);
-                axios.post("http://localhost:3000/keygames/addimage/" + this.newKeyId, formdata),
+                axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/addimage/" + this.newKeyId, formdata),
                     {
                         "Content-Type": "multipart/form-data",
                     }

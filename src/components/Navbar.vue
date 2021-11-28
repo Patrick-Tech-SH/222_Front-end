@@ -22,7 +22,7 @@
             <img src="https://i.pravatar.cc/500?img=32" />
           </div>
         </div>
-        <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="!this.haveToken"> Login </router-link>
+        <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1"  v-if="this.haveToken == null && this.adminToken == null"> Login </router-link>
         <a class="btn btn-ghost btn-sm rounded-btn m-1" v-else @click="logout"> Logout </a>
       </div>
     </div>
@@ -52,7 +52,7 @@
           <router-link to="/cart" class="btn btn-ghost btn-sm rounded-btn"> Cart </router-link>
         </li>
         <li>
-          <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="!this.haveToken"> Login </router-link>
+          <router-link to="/login" class="btn btn-ghost btn-sm rounded-btn m-1" v-if="this.haveToken == null && this.adminToken == null"> Login </router-link>
           <a class="btn btn-ghost btn-sm rounded-btn m-1" v-else @click="logout"> Logout </a>
         </li>
       </ul>
@@ -74,22 +74,40 @@
       async logout () {
         axios.defaults.headers.common["Authorization"] =
           "Bearer " + localStorage.getItem("token");
+        if (this.adminToken != null) {
+          console.log(this.adminToken);
+          let header = `Bearer ${ this.adminToken }`
+          await axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/admin/logout", null,{headers:{Authorization: header}})
+          .then(() => {
+            localStorage.clear()
+            console.log("Logout success!!");
+            this.$store.state.token = null
+            this.$store.state.userId = ""
+            this.$store.state.adminToken = null
+            this.$store.dispatch('refresh')
 
-        await axios.post("http://localhost:3000/user/logout")
+          })
+        }else{
+          await axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/user/logout")
         .then(() => {
           localStorage.clear()
           console.log("Logout success!!");
-          this.$store.state.token = ""
+          this.$store.state.token = null
           this.$store.state.userId = ""
+          this.$store.state.adminToken = null
+          this.$store.dispatch('refresh')
         })
         .catch((error) => {
           console.log(error);
         })
+        }
+
       }
     },
     computed: {
       ...mapGetters({
-        haveToken: "token"
+        haveToken: "token",
+        adminToken: "adminToken"
       }),
 
     }

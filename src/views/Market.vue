@@ -26,7 +26,7 @@
             <product-list v-for="product in filterItem" :key="product.keyId" :product="product" />
         </div>
 
-        <pre>{{ items }}</pre>
+        <!-- <pre>{{ items }}</pre> -->
     </div>
 </template>
 
@@ -51,7 +51,7 @@ import axios from "axios";
             return {
                 // imageURL: "http://localhost:3000/keygames/"
                 getGameDev:[],
-                devId: null
+                devId: null,
             }
         },
 
@@ -62,7 +62,7 @@ import axios from "axios";
             }),
             async fetchGameDev(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/gamedeveloper/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/gamedeveloper/')
                     if (data) {
                         // console.log(data);
                         this.getGameDev = data

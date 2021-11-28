@@ -8,7 +8,7 @@
       <div>
         <div class="card bordered cursor-pointer">
           <figure @click="this.$router.push(`/productdetail/${ product.keyId }`)">
-            <img :src="`http://localhost:3000/keygames/getimage/${ product.keyId }`" class="h-full object-cover md:h-60 lg:h-96"/>
+            <img :src="`${ url }/keygames/getimage/${ product.keyId }`" class="h-full object-cover md:h-60 lg:h-96"/>
           </figure>
           <div class="card-body">
             <h2 class="card-title">{{ product.gameName }}</h2>
@@ -52,6 +52,11 @@
     name: "ProductList",
     props:{
       product:Object
+    },
+    data (){
+      return{
+        url: process.env.VUE_APP_MY_ENV_VARIABLE
+      }
     }
 
     // created() {

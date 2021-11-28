@@ -46,7 +46,7 @@
                 <button class="btn btn-active mx-auto">Login</button>
             </div>
 
-            <pre>{{ user }}</pre>
+            <!-- <pre>{{ user }}</pre> -->
         </div>
 
     </div>
@@ -73,7 +73,7 @@
                 if (this.validateEmail || this.validatePassword) {
                     return
                 }
-                axios.post("http://localhost:3000/user/login", this.user)
+                axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/user/login", this.user)
                     .then((response) => {
                         // return response.data;
                         // console.log(response.data.token);

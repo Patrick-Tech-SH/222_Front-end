@@ -128,7 +128,7 @@ export default {
     methods:{
 
         async getItemToEdit(id) {
-            const response = await axios.get('http://localhost:3000/keygames/getbyid/' + id)
+            const response = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/keygames/getbyid/' + id)
             console.log(response.data.data[0]);
             this.itemToEdit = response.data.data[0]
             let newDate = new Date (this.itemToEdit.releaseDate)
@@ -144,7 +144,7 @@ export default {
 
             async fetchGameDev(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/gamedeveloper/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/gamedeveloper/')
                     if (data) {
                         // console.log(data);
                         this.getGameDev = data
@@ -155,7 +155,7 @@ export default {
             },
             async fetchPlatform(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/platform/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/platform/')
                     if (data) {
                         // console.log(data);
                         this.getPlatform = data
@@ -166,7 +166,7 @@ export default {
             },
             async fetchTag(){
                 try {
-                    const { data } = await axios.get('http://localhost:3000/gametags/')
+                    const { data } = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+'/gametags/')
                     if (data) {
                         // console.log(data);
                         this.getTag = data
@@ -200,11 +200,11 @@ export default {
                     gametags:this.itemToEdit.gametags
                 }
                 console.log(content);
-                await axios.put(`http://localhost:3000/keygames/update/${this.$route.params.id}`, content ,{headers:{'Content-Type':'application/json', Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}/keygames/update/${this.$route.params.id}`, content ,{headers:{'Content-Type':'application/json', Authorization: 'Bearer ' + localStorage.getItem("token")}})
                 if (this.imageFile != null) {
                     var formdata = new FormData();
                     formdata.append("file", this.imageFile);
-                    axios.put(`http://localhost:3000/keygames/updateimage/${this.$route.params.id}`, formdata ,{headers:{"Content-Type": "multipart/form-data", Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                    axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}/keygames/updateimage/${this.$route.params.id}`, formdata ,{headers:{"Content-Type": "multipart/form-data", Authorization: 'Bearer ' + localStorage.getItem("token")}})
                 }
                 alert("Edit Success")
                 this.$router.push("/myitems")

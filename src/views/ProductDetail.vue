@@ -4,7 +4,7 @@
         <div class="flex flex-col md:flex-row md:justify-around	md:mb-32 md:mt-16 ">
             <!-- image -->
             <div class="mt-6 p-6 md:w-6/12 md:h-2/4">
-                <img :src="`http://localhost:3000/keygames/getimage/${ itemById.keyId }`" alt="product image" class="object-cover md:object-center mx-auto justify-items-center items-center">
+                <img :src="`${ url }/keygames/getimage/${ itemById.keyId }`" alt="product image" class="object-cover md:object-center mx-auto justify-items-center items-center">
             </div>
 
             <!-- detail -->
@@ -28,7 +28,7 @@
         </div>
 
 
-        <pre>{{ $route.params.id }}</pre>
+        <!-- <pre>{{ $route.params.id }}</pre> -->
 
     </div>
 </template>
@@ -50,7 +50,7 @@ import dayjs from "dayjs";
         data () {
             return {
                 // itemById:[]
-
+                url: process.env.VUE_APP_MY_ENV_VARIABLE
             }
         },
         methods: {

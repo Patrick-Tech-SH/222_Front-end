@@ -16,7 +16,7 @@
             <div v-for="item in keyGameByUserId" :key="item.keyId">
                 <div class="card bordered">
                     <figure @click="this.$router.push(`/edititem/${ item.keyId }`)">
-                        <img :src="`http://localhost:3000/keygames/getimage/${ item.keyId }`" class="h-full object-cover md:h-60 lg:h-96">
+                        <img :src="`${ url }/keygames/getimage/${ item.keyId }`" class="h-full object-cover md:h-60 lg:h-96">
                     </figure>
                     <div class="card-body">
                         <h2 class="card-title">{{ item.gameName }}</h2>
@@ -50,12 +50,13 @@
         },
         data() {
             return {
-                keyGameByUserId: []
+                keyGameByUserId: [],
+                url: process.env.VUE_APP_MY_ENV_VARIABLE
             }
         },
         methods: {
             async fetchKeyGameByUserId(userid) {
-                const response = await axios.get("http://localhost:3000/keygames/getkeybyuserid/" + userid, {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                const response = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/getkeybyuserid/" + userid, {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
                 console.log(response.data.data);
                 this.keyGameByUserId = response.data.data
                 console.log(this.keyGameByUserId);
@@ -66,9 +67,9 @@
             async deleteKeyGame(id) {
                 var r = confirm("Are you sure to delete " + id + " ?");
                 if (r == true) {
-                    await axios.delete("http://localhost:3000/keygames/deleteimage/" + id , {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
+                    await axios.delete(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/deleteimage/" + id , {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
                     .then(()=> {
-                        axios.delete("http://localhost:3000/keygames/del/"+id)
+                        axios.delete(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/del/"+id)
                     })
                     .catch((error) => {
                         console.log(error);

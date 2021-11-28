@@ -43,7 +43,7 @@ import axios from 'axios'
                 if (this.validateName || this.validatePassword) {
                     return
                 }
-                axios.post("http://localhost:3000/admin/login", this.admin)
+                axios.post(process.env.VUE_APP_MY_ENV_VARIABLE+"/admin/login", this.admin)
                 .then((response) => {
 
                         // return response.data;
