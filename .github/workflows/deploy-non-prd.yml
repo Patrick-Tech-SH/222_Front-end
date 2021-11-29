@@ -28,7 +28,6 @@ jobs:
         run : |
           touch .env
           echo VUE_APP_MY_ENV_VARIABLE=${{ secrets.BE_ENV }} >> .env
-          cat .env
           
       - name: Build and push
         uses: docker/build-push-action@v2
