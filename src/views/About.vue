@@ -13,7 +13,7 @@
         <div class="card-body gap-5 items-center">
           <h2 class="card-title text-lg lg:text-xl">62130500046</h2>
           <p class="text-md lg:text-lg">Nirawat Poramathumsakul</p>
-          <p class="text-md lg:text-lg">Position: Devops</p>
+          <p class="text-md lg:text-lg">Position: DevOps, Network</p>
         </div>
       </div>
 
