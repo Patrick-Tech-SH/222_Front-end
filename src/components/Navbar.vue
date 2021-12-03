@@ -8,11 +8,11 @@
     <div class="flex-1 px-2 mx-8">
       <div class="items-stretch hidden md:flex">
         <router-link to="/" class="btn btn-ghost btn-sm rounded-btn"> Home </router-link>
-        <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
         <router-link to="/market" class="btn btn-ghost btn-sm rounded-btn"> Market </router-link>
         <router-link to="/myitems" class="btn btn-ghost btn-sm rounded-btn" v-if="this.$store.state.token  != null"> My Items </router-link>
-        <router-link to="/cart" class="btn btn-ghost btn-sm rounded-btn"> Cart </router-link>
-      </div>
+        <!-- <router-link to="/cart" class="btn btn-ghost btn-sm rounded-btn"> Cart </router-link> -->
+        <router-link to="/about" class="btn btn-ghost btn-sm rounded-btn"> About </router-link>
+       </div>
     </div>
 
     <div class="flex-none md:mr-8 mx:8">
