@@ -39,24 +39,25 @@
 
 <script>
     import axios from "axios";
-    const userid = localStorage.getItem("userId")
+    // const userid = localStorage.getItem("userId")
     export default {
         name: "MyItems",
         mounted() {
             if (this.$store.state.token == null) {
                 this.$router.push("/")
             }
-            this.fetchKeyGameByUserId(userid)
+            this.fetchKeyGameByUserId()
         },
         data() {
             return {
                 keyGameByUserId: [],
+                userid: localStorage.getItem("userId"),
                 url: process.env.VUE_APP_MY_ENV_VARIABLE
             }
         },
         methods: {
-            async fetchKeyGameByUserId(userid) {
-                const response = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/getkeybyuserid/" + userid, {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
+            async fetchKeyGameByUserId() {
+                const response = await axios.get(process.env.VUE_APP_MY_ENV_VARIABLE+"/keygames/getkeybyuserid/" + this.userid, {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}})
                 console.log(response.data.data);
                 this.keyGameByUserId = response.data.data
                 console.log(this.keyGameByUserId);
